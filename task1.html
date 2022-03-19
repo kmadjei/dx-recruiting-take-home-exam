@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task 1</title>
+</head>
+<body>
+
+    <h1>Task 1</h1>
+
+    <p id="demo"></p>
+    <label for="input">Place your sentence in the text box below</label><br><br>
+    <textarea id="input" rows="4" cols="50"></textarea>
+    <br><br>
+    <button onclick="longestWord()">Find The Longest Word</button>
+    <p>The longest word with the most vowels is: <span id="result" style="font-weight: bold;"></span></p>
+    <p id="result"></p>
+
+    <script>
+        function longestWord() {
+            
+            //const test_input = "Smart people learn from everything and everyone, average people from their experience, stupid people already, have all the answers";
+
+            // get input value
+            const user_input = document.getElementById("input").value;
+            console.log(user_input)
+
+            // find words without special char and ignore special char attached to words
+            const words = user_input.split(" ").map(word => {
+                if (word.match(/\w/g)) {
+                    return word.replace(/(\W|\d)/gm, '')
+                }
+            });
+
+            const max_word_length = Math.max(...words.map(word => word.length));
+            //console.log("Word length: ", max_word_length);
+
+            const longest_words = words.filter(word => word.length >= max_word_length);
+
+            // array for the vowel count of the longest words
+            const max_word_vowels = longest_words.map( word => {
+                const vowels = ["a", "e", "i", "o", "u"];
+                let count = 0;
+                for (let letter of word) {
+                    if (vowels.includes(letter)) {
+                        count ++;
+                    }
+                }
+                return count;
+            });
+
+            let result = longest_words[max_word_vowels.indexOf(Math.max(...max_word_vowels))]
+            document.getElementById("result").innerText = result;
+        }
+
+    </script>
+</body>
+</html>
